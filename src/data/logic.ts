@@ -6,13 +6,43 @@ import { glossary } from './glossary';
 /* ------------------------------------------------------------------ */
 
 const WC: Record<string, number> = {
-  'Ancestral Blade': 3, 'Incinerator': 3,
-  'Righteous Fist': 2, 'Relic Blade': 2, 'Flail': 2, 'Polearm': 2, 'Siege Hammer': 2, 'Thundergun': 2, 'Slugger': 2, 'Repeater': 2,
+  // Inheritor gear
+  'Ancestral Blade': 3, 'Incinerator': 3, 'Siege Hammer': 3,
+  'Righteous Fist': 2, 'Relic Blade': 2, 'Flail': 2, 'Polearm': 2, 'Thundergun': 2, 'Slugger': 2, 'Repeater': 2,
   'Blade': 1, 'Maul': 1, 'Blaster': 1, 'Piercer': 1,
+  // Martyr gear
   'Autostave': 3, 'Repulsor': 3, 'Thermal Lance': 3, 'Railgun': 3,
   'Electro-Sword': 2, 'Electro Sword': 2, 'Alloy Staff': 2, 'Oxidiser': 2, 'Scorcher': 2, 'Atomiser': 2,
   'Spear': 1, 'Sword': 1, 'Shock Rod': 1, 'Rusted Pick': 1,
-  'Reaper Blade': 2, 'Acid Gun': 3,
+  // Reborn gear
+  'Huge Claws': 3, 'Lethal Probe': 3, 'Storm Cannon': 3, 'Grav Warper': 3, 'Novagun': 3,
+  'Toxic Blade': 2, 'Savage Claws': 2, 'Ripper Staff': 2, 'Scatterblaster': 2, 'Charger': 2, 'Rumbler': 2,
+  'Claws': 1, 'Pistol': 1, 'Toxic Dagger': 1,
+  // Exile gear
+  'Death Claws': 3, 'Dread Glaive': 3, 'Cluster Launcher': 3, 'Shardreaper': 3, 'Seeker Cannon': 3, 'Fusion Gun': 3,
+  'Hunting Spear': 2, 'Bane Talon': 2, 'Impaler': 2, 'Shardcaster': 2,
+  'Spike': 1, 'Kinetic Driver': 1,
+  // Horror rewards
+  'Reaper Blade': 2, 'Acid Gun': 3, 'Hunger Gland': 1,
+  'Hunter Rifle': 3, 'Abyssal Shield': 1, 'Colossus Shard': 1,
+  'Reaper Blaster': 3, 'Dismemberment Claw': 2, 'Impacter': 3,
+  'Catching Pole': 2, 'Volcanic Shroud': 2, 'Ember Launcher': 3, 'Thermal Maul': 3,
+  'Blitz Gun': 2, 'Chaos Gun': 2, 'Portable Chaingun': 2,
+  'Fang Blade': 3, 'Purgatorial Flamethrower': 2,
+  'Cold Scythe': 4, 'Rage Blaster': 2, 'Viscera Blades': 2,
+  'Link Gun': 3, 'Quake Hammer': 2, "Charger's Lance": 2,
+  'Bio-Spike Launcher': 3, 'Tearing Knife': 3,
+  'Lightning Gun': 3, 'Flash Gun': 2,
+  'Impaler Horn': 3, 'Spore Gun': 2,
+  'Fanatic Flail': 2, 'Cinder Bone': 2,
+  'Icepiercer': 2, 'Echo Blade': 2, 'Red Beam': 3,
+  'Nerve Gun': 3, 'Grapple Tendon': 1,
+  'Roaring Blade': 3, 'Infinity Blade': 3, 'Psych-Ray': 3,
+  'Erosion Cannon': 3, 'Beast Claw': 1, 'Bile Launcher': 2,
+  'Shatter Rifle': 2, 'Wrecking Hammer': 3,
+  'Dark Knife': 2, 'Geistgun': 2, 'Soul Jar': 1,
+  'Shield': 1, 'Cloak': 1,
+  'Mercy Shield': 1, 'Mocking Trophy': 1, 'Flank': 2,
 };
 
 export function weaponCost(w: Weapon): number {
@@ -228,7 +258,7 @@ export const shockTableData: TableRow[] = buildRows(
     [8, 'Fight Back', 'Free Attack against your attacker', 'g'],
     [9, 'Crawl', 'Free Move', 'g'],
     [10, 'Last Gasp', 'Free Action', 'g'],
-    [11, 'Saviour', 'An ally you see gets a Free Move', 'g'],
+    [11, 'Saviour', 'An ally you can see gets a Free Move', 'g'],
     [12, 'Vengeance', 'One ally gets a Free Attack against your attacker', 'g'],
   ],
   true,

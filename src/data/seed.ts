@@ -221,7 +221,7 @@ export function getSeedWarbands(): Warband[] {
           trained: true,
           kills: 2,
           scenarios: 1,
-          cost: 3,
+          cost: 5,
           weapons: [
             w('Relic Blade', 'M3x1', { rarity: 'superior' }),
           ],
@@ -238,7 +238,7 @@ export function getSeedWarbands(): Warband[] {
           trained: false,
           kills: 0,
           scenarios: 0,
-          cost: 2,
+          cost: 3,
           weapons: [w('Piercer', 'R1x2')],
           skills: [],
           mods: ['loyal'],
@@ -289,7 +289,10 @@ export function getSeedWarbands(): Warband[] {
           kills: 1,
           scenarios: 1,
           cost: 6,
-          weapons: [w('Piercer', 'R1x2')],
+          weapons: [
+            w('Piercer', 'R1x2'),
+            w('Shield', '', { note: '+1 Saves Readied', custom: '+1 to Saves while Readied.' }),
+          ],
           skills: ['tough'],
           mods: ['vengeful'],
         },
@@ -306,6 +309,7 @@ export function getSeedWarbands(): Warband[] {
           cost: 5,
           weapons: [
             w('Electro Sword', 'M1x3', { rarity: 'superior' }),
+            w('Shield', '', { note: '+1 Saves Readied', custom: '+1 to Saves while Readied.' }),
           ],
           skills: [],
           mods: [],

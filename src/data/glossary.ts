@@ -4,7 +4,7 @@ export const glossary: Record<string, GlossaryEntry> = {
   // skills
   tough: { t: 'Tough', c: 'Skill', b: 'Reroll failed Recover rolls, and failed Saves against Melee attacks. No die is rerolled more than once.' },
   fierce: { t: 'Fierce', c: 'Skill', b: 'Reroll failed Fight dice. No die is rerolled more than once.' },
-  nimble: { t: 'Nimble', c: 'Skill', b: 'Reroll failed Move rolls, and Saves against Ranged attacks.' },
+  nimble: { t: 'Nimble', c: 'Skill', b: 'Reroll failed Move rolls, and failed Saves against Ranged attacks.' },
   precise: { t: 'Precise', c: 'Skill', b: 'Reroll failed Shoot dice.' },
   // unit mods
   guardian: { t: 'Guardian', c: 'Unit Mod', b: 'Attack at QL2+ against enemies that are touching one of your allies.' },
@@ -29,7 +29,7 @@ export const glossary: Record<string, GlossaryEntry> = {
   vengeful: { t: 'Vengeful', c: 'Unit Mod', b: 'Act at QL3+ on a turn in which you Recovered.' },
   opportunist: { t: 'Opportunist', c: 'Unit Mod', b: 'Act at QL2+ on Free Actions granted by a Shock Roll.' },
   adrenaline: { t: 'Adrenaline', c: 'Unit Mod', b: 'Take a fourth action on your turn; if you do, take 1 Damage.' },
-  aim: { t: 'Aim', c: 'Unit Mod', b: 'Spend all 3 actions to Shoot at QL2+.' },
+  aim: { t: 'Aim', c: 'Unit Mod', b: "The unit's next Shoot this turn counts as QL2+." },
   bionics: { t: 'Bionics', c: 'Unit Mod', b: 'Can Move and Attack normally while Down.' },
   decoy: { t: 'Decoy', c: 'Unit Mod', b: 'Action: swap places with an ally you can see.' },
   manipulate: { t: 'Manipulate', c: 'Unit Mod', b: 'End of turn: Move an enemy you see (not directly harmful).' },

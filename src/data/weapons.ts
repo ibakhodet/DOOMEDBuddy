@@ -20,8 +20,8 @@ export const weaponCatalog: WeaponTemplate[] = [
   { name: 'Righteous Fist', notation: 'M1x2', cost: 2, mods: ['brutal'], source: 'Inheritor 2pt', rarity: 'superior' },
   { name: 'Relic Blade', notation: 'M3x1', cost: 2, mods: [], source: 'Inheritor 2pt', rarity: 'superior' },
   { name: 'Flail', notation: 'M2x1', cost: 2, mods: ['surge'], source: 'Inheritor 2pt', rarity: 'superior' },
-  { name: 'Polearm', notation: 'M1x2', cost: 2, mods: ['reach'], source: 'Inheritor 2pt', rarity: 'superior' },
-  { name: 'Siege Hammer', notation: 'M1x2', cost: 2, mods: ['heavy'], source: 'Inheritor 2pt', rarity: 'superior' },
+  { name: 'Polearm', notation: 'M1x2', cost: 2, mods: ['heavy'], source: 'Inheritor 2pt', rarity: 'superior' },
+  { name: 'Siege Hammer', notation: 'M1x3', cost: 3, mods: ['heavy'], source: 'Inheritor 3pt', rarity: 'superior' },
   { name: 'Thundergun', notation: 'R1x3', cost: 2, mods: [], source: 'Inheritor 2pt', rarity: 'superior' },
   { name: 'Slugger', notation: 'R1x2', cost: 2, mods: ['sidearm'], source: 'Inheritor 2pt', rarity: 'superior' },
   { name: 'Repeater', notation: 'R1x2', cost: 2, mods: ['storm'], source: 'Inheritor 2pt', rarity: 'superior' },
@@ -31,7 +31,7 @@ export const weaponCatalog: WeaponTemplate[] = [
   { name: 'Piercer', notation: 'R1x2', cost: 1, mods: [], source: 'Inheritor 1pt', rarity: 'standard' },
 
   // ──── MARTYR GEAR ────
-  { name: 'Autostave', notation: 'M3x1', cost: 3, mods: ['reach'], source: 'Martyr 3pt', rarity: 'superior' },
+  { name: 'Autostave', notation: 'M3x1', cost: 3, mods: ['heavy'], source: 'Martyr 3pt', rarity: 'superior' },
   { name: 'Repulsor', notation: 'M1x3', cost: 3, mods: ['force'], source: 'Martyr 3pt', rarity: 'superior' },
   { name: 'Thermal Lance', notation: 'R1x3', cost: 3, mods: ['rend'], source: 'Martyr 3pt', rarity: 'superior' },
   { name: 'Railgun', notation: 'R1x3', cost: 3, mods: ['heavy'], source: 'Martyr 3pt', rarity: 'superior' },
