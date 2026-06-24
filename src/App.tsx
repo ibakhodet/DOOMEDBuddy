@@ -5,6 +5,7 @@ import { getSeedWarbands } from './data/seed';
 import {
   unitCost, committed, sortUnits, recruitOptions, renownMeter, weaponCost,
 } from './data/logic';
+import { isFirebaseConfigured } from './firebase';
 import { useAuth } from './hooks/useAuth';
 import { useWarband } from './hooks/useWarband';
 import Header from './components/Header';
@@ -29,14 +30,12 @@ function App() {
   const { warband, loading: wbLoading, update } = useWarband(user?.uid || null, playerName);
 
   // Fallback: use seed data locally when Firebase is not configured
-  const [localWb, setLocalWb] = useState<Warband | null>(null);
-  const firebaseConfigured = !!(import.meta.env.VITE_FIREBASE_API_KEY);
+  const [localWb, setLocalWb] = useState<Warband | null>(() =>
+    isFirebaseConfigured ? null : getSeedWarbands()[0]
+  );
+  const firebaseConfigured = isFirebaseConfigured;
 
-  const wb = firebaseConfigured ? warband : (localWb || (() => {
-    const seed = getSeedWarbands()[0];
-    setLocalWb(seed);
-    return seed;
-  })());
+  const wb = firebaseConfigured ? warband : localWb;
 
   const updateWb = useCallback((fn: (w: Warband) => void) => {
     if (firebaseConfigured) {
@@ -73,6 +72,8 @@ function App() {
   const lpFiredRef = useRef(false);
   const wlpTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const wlpFiredRef = useRef(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [portraitTargetId, setPortraitTargetId] = useState<string | null>(null);
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const gearUndoRef = useRef<{ srcId: string; tgtId: string; widx: number; wpn: any } | null>(null);
 
@@ -292,6 +293,49 @@ function App() {
     setEditWeapon(null);
   };
 
+  // Portrait upload
+  const onChangePortrait = (id: string) => {
+    setPortraitTargetId(id);
+    fileInputRef.current?.click();
+  };
+
+  const onFileSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !portraitTargetId) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataUrl = reader.result as string;
+      // Resize to max 200x200 to keep Firestore doc small
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const size = 200;
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext('2d')!;
+        const scale = Math.max(size / img.width, size / img.height);
+        const w = img.width * scale;
+        const h = img.height * scale;
+        ctx.drawImage(img, (size - w) / 2, (size - h) / 2, w, h);
+        const compressed = canvas.toDataURL('image/jpeg', 0.7);
+        updateWb(wb => {
+          const u = wb.units.find(x => x.id === portraitTargetId);
+          if (u) u.img = compressed;
+        });
+      };
+      img.src = dataUrl;
+    };
+    reader.readAsDataURL(file);
+    e.target.value = '';
+  };
+
+  const onDeletePortrait = (id: string) => {
+    updateWb(w => {
+      const u = w.units.find(x => x.id === id);
+      if (u) u.img = undefined;
+    });
+  };
+
   const activeUnit = unitId ? wb.units.find(u => u.id === unitId) : null;
   const activeIdx = unitId ? orderedIds.indexOf(unitId) : -1;
 
@@ -339,6 +383,8 @@ function App() {
           onUpgradeQL={() => onUpgradeQL(activeUnit.id)}
           onAddWeapon={() => setAddWeaponFor(activeUnit.id)}
           onEditWeapon={(widx) => setEditWeapon({ unitId: activeUnit.id, widx })}
+          onChangePortrait={() => onChangePortrait(activeUnit.id)}
+          onDeletePortrait={() => onDeletePortrait(activeUnit.id)}
         />
       )}
 
@@ -406,6 +452,15 @@ function App() {
           onDelete={() => onDeleteWeapon(editWeapon.unitId, editWeapon.widx)}
         />
       )}
+
+      {/* Hidden file input for portrait upload */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        style={{ display: 'none' }}
+        onChange={onFileSelected}
+      />
     </div>
   );
 }

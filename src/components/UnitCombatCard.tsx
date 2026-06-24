@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { Unit, UnitStatus, Warband } from '../data/types';
 import { statusColors, unitCost, weaponCost, decode, sortUnits } from '../data/logic';
 import type { renownMeter } from '../data/logic';
@@ -25,6 +26,8 @@ interface UnitCombatCardProps {
   onUpgradeQL: () => void;
   onAddWeapon: () => void;
   onEditWeapon: (widx: number) => void;
+  onChangePortrait: () => void;
+  onDeletePortrait: () => void;
 }
 
 const keyframes = `
@@ -66,7 +69,9 @@ export default function UnitCombatCard({
   onWeaponDown, onWeaponUp,
   onUpgradeQL,
   onAddWeapon, onEditWeapon,
+  onChangePortrait, onDeletePortrait,
 }: UnitCombatCardProps) {
+  const [showPortraitMenu, setShowPortraitMenu] = useState(false);
   const out = (unit.status === 'lost' || unit.status === 'dead') && unit.inWarband !== false;
   const [scColor, scBorder, scBg] = statusColors(unit.status);
   const cost = unitCost(unit);
@@ -227,8 +232,9 @@ export default function UnitCombatCard({
         >
           {/* ===== 1. IDENTITY ROW ===== */}
           <div style={{ display: 'flex', gap: 15 }}>
-            {/* Portrait */}
+            {/* Portrait (tappable) */}
             <div
+              onClick={(e) => { e.stopPropagation(); setShowPortraitMenu(true); }}
               style={{
                 width: 104,
                 height: 104,
@@ -240,6 +246,7 @@ export default function UnitCombatCard({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                cursor: 'pointer',
               }}
             >
               {unit.img ? (
@@ -277,7 +284,70 @@ export default function UnitCombatCard({
                   pointerEvents: 'none',
                 }}
               />
+              {/* Camera icon hint */}
+              <div style={{
+                position: 'absolute', bottom: 4, right: 4, width: 22, height: 22,
+                borderRadius: 4, background: 'rgba(0,0,0,.6)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 12, color: '#8effa8', pointerEvents: 'none',
+              }}>&#9998;</div>
             </div>
+
+            {/* Portrait menu popup */}
+            {showPortraitMenu && (
+              <div
+                onClick={() => setShowPortraitMenu(false)}
+                style={{
+                  position: 'fixed', inset: 0, zIndex: 40,
+                  background: 'rgba(4,6,7,.5)', animation: 'fadeIn .12s ease',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}
+              >
+                <div onClick={(e) => e.stopPropagation()} style={{
+                  background: 'linear-gradient(#1b1f21, #121517)',
+                  border: '1px solid #2c6e3f', borderRadius: 14, padding: 16,
+                  boxShadow: '0 12px 40px rgba(0,0,0,.7)', animation: 'cardIn .2s ease',
+                  width: '80%', maxWidth: 280,
+                  display: 'flex', flexDirection: 'column', gap: 8,
+                }}>
+                  <div style={{ fontFamily: FONT, fontWeight: 700, fontSize: 16, color: '#8effa8', marginBottom: 4 }}>
+                    Portrait
+                  </div>
+                  <div
+                    onClick={() => { setShowPortraitMenu(false); onChangePortrait(); }}
+                    style={{
+                      fontFamily: FONT, fontWeight: 700, fontSize: 14, color: '#d6e0da',
+                      background: '#0c1f13', border: '1px solid #2c6e3f', borderRadius: 7,
+                      padding: '11px 14px', cursor: 'pointer', textAlign: 'center',
+                    }}
+                  >
+                    {unit.img ? 'Endre bilde' : 'Last opp bilde'}
+                  </div>
+                  {unit.img && (
+                    <div
+                      onClick={() => { setShowPortraitMenu(false); onDeletePortrait(); }}
+                      style={{
+                        fontFamily: FONT, fontWeight: 700, fontSize: 14, color: '#ff6a5a',
+                        background: '#1c0c0a', border: '1px solid #7a2a22', borderRadius: 7,
+                        padding: '11px 14px', cursor: 'pointer', textAlign: 'center',
+                      }}
+                    >
+                      Slett bilde
+                    </div>
+                  )}
+                  <div
+                    onClick={() => setShowPortraitMenu(false)}
+                    style={{
+                      fontFamily: FONT, fontWeight: 700, fontSize: 13, color: '#8a9a90',
+                      border: '1px solid #3a4143', borderRadius: 7,
+                      padding: '9px 14px', cursor: 'pointer', textAlign: 'center',
+                    }}
+                  >
+                    Avbryt
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Middle: labels, name, chips */}
             <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 4 }}>
