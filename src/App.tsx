@@ -5,9 +5,10 @@ import { getSeedWarbands } from './data/seed';
 import {
   unitCost, committed, sortUnits, recruitOptions, renownMeter, weaponCost,
 } from './data/logic';
-import { isFirebaseConfigured } from './firebase';
+import { isFirebaseConfigured, ADMINS } from './firebase';
 import { useAuth } from './hooks/useAuth';
 import { useWarband } from './hooks/useWarband';
+import WarbandPicker from './components/WarbandPicker';
 import Header from './components/Header';
 import BottomNav from './components/BottomNav';
 import Roster from './components/Roster';
@@ -26,8 +27,16 @@ import LoginScreen from './components/LoginScreen';
 import AddWeaponSheet from './components/AddWeaponSheet';
 
 function App() {
-  const { user, playerName, loading: authLoading, error: authError, sendLink, logout } = useAuth();
-  const { warband, loading: wbLoading, update } = useWarband(user?.uid || null, playerName);
+  const { user, playerName: authPlayerName, loading: authLoading, error: authError, sendLink, logout } = useAuth();
+
+  // Admin users (Martin) can pick which warband to view
+  const isAdmin = !!(user?.email && ADMINS.includes(user.email.toLowerCase()));
+  const [chosenPlayer, setChosenPlayer] = useState<string | null>(null);
+
+  // The active player name: for admins it's the chosen one, for others it's their own
+  const activePlayerName = isAdmin ? chosenPlayer : authPlayerName;
+
+  const { warband, loading: wbLoading, update } = useWarband(activePlayerName);
 
   // Fallback: use seed data locally when Firebase is not configured
   const [localWb, setLocalWb] = useState<Warband | null>(() =>
@@ -83,6 +92,9 @@ function App() {
   }
   if (firebaseConfigured && !user) {
     return <LoginScreen error={authError} onSendLink={sendLink} />;
+  }
+  if (firebaseConfigured && isAdmin && !chosenPlayer) {
+    return <WarbandPicker onPick={setChosenPlayer} onLogout={logout} />;
   }
   if (firebaseConfigured && wbLoading) {
     return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#07090a', color: '#4fb568', fontFamily: "'Chakra Petch', sans-serif", fontSize: 16 }}>Loading warband...</div>;
@@ -341,7 +353,7 @@ function App() {
 
   return (
     <div style={{ height: '100vh', maxWidth: 540, margin: '0 auto', display: 'flex', flexDirection: 'column', background: '#0b0d0e', fontFamily: "'Chakra Petch', sans-serif", position: 'relative', overflow: 'hidden' }}>
-      <Header wb={wb} playerName={playerName || wb.player} onLogout={firebaseConfigured ? logout : undefined} onSetRenown={(val) => updateWb(w => { w.renown = val; })} />
+      <Header wb={wb} playerName={activePlayerName || wb.player} onLogout={firebaseConfigured ? logout : undefined} onSetRenown={(val) => updateWb(w => { w.renown = val; })} onSwitchWarband={isAdmin ? () => setChosenPlayer(null) : undefined} />
 
       <div style={{ flex: 1, overflowY: 'auto', WebkitOverflowScrolling: 'touch' }}>
         {view === 'roster' && (
@@ -442,7 +454,7 @@ function App() {
         <AddWeaponSheet
           onClose={() => setAddWeaponFor(null)}
           onSave={(weapon) => onAddWeapon(addWeaponFor, weapon)}
-          playerName={playerName || wb.player}
+          playerName={activePlayerName || wb.player}
         />
       )}
 
@@ -452,7 +464,7 @@ function App() {
           onClose={() => setEditWeapon(null)}
           onSave={(weapon) => onSaveWeapon(editWeapon.unitId, editWeapon.widx, weapon)}
           onDelete={() => onDeleteWeapon(editWeapon.unitId, editWeapon.widx)}
-          playerName={playerName || wb.player}
+          playerName={activePlayerName || wb.player}
         />
       )}
 

@@ -6,9 +6,10 @@ interface HeaderProps {
   playerName: string;
   onLogout?: () => void;
   onSetRenown?: (value: number) => void;
+  onSwitchWarband?: () => void;
 }
 
-export default function Header({ wb, playerName, onLogout, onSetRenown }: HeaderProps) {
+export default function Header({ wb, playerName, onLogout, onSetRenown, onSwitchWarband }: HeaderProps) {
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(String(wb.renown));
 
@@ -68,7 +69,7 @@ export default function Header({ wb, playerName, onLogout, onSetRenown }: Header
         </span>
 
         <span
-          onClick={onLogout}
+          onClick={onSwitchWarband || onLogout}
           style={{
             fontFamily: "'Share Tech Mono', monospace",
             fontSize: 12,
@@ -76,10 +77,10 @@ export default function Header({ wb, playerName, onLogout, onSetRenown }: Header
             border: '1px solid #3a4143',
             borderRadius: 4,
             padding: '3px 9px',
-            cursor: onLogout ? 'pointer' : 'default',
+            cursor: (onSwitchWarband || onLogout) ? 'pointer' : 'default',
           }}
         >
-          {playerName}
+          {onSwitchWarband ? '\u21C4 ' : ''}{playerName}
         </span>
       </div>
 

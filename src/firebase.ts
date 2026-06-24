@@ -32,3 +32,8 @@ export const PLAYERS: Record<string, string> = {
   // Tord's email will be added here
   'tord@placeholder.com': 'TORD',
 };
+
+// Admin emails: can view/edit all warbands
+export const ADMINS: string[] = ['marteri9@gmail.com'];
+
+export const ALL_PLAYER_NAMES = ['MARTIN', 'SIGVE', 'TORD'] as const;

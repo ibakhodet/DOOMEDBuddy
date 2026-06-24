@@ -4,20 +4,21 @@ import { db, isFirebaseConfigured } from '../firebase';
 import { Warband } from '../data/types';
 import { getSeedWarbands } from '../data/seed';
 
-export function useWarband(uid: string | null, playerName: string | null) {
+// Now keyed by player name (MARTIN, SIGVE, TORD) instead of uid
+export function useWarband(playerName: string | null) {
   const [warband, setWarband] = useState<Warband | null>(null);
   const [loading, setLoading] = useState(true);
   const wbRef = useRef<Warband | null>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    if (!isFirebaseConfigured || !db || !uid || !playerName) {
+    if (!isFirebaseConfigured || !db || !playerName) {
       setWarband(null);
       setLoading(false);
       return;
     }
 
-    const docRef = doc(db, 'warbands', uid);
+    const docRef = doc(db, 'warbands', playerName);
 
     // Check if doc exists, seed if not
     getDoc(docRef).then((snap) => {
@@ -40,21 +41,21 @@ export function useWarband(uid: string | null, playerName: string | null) {
     });
 
     return unsub;
-  }, [uid, playerName]);
+  }, [playerName]);
 
   const save = useCallback(
     (updatedWb: Warband) => {
-      if (!uid || !db) return;
+      if (!playerName || !db) return;
       wbRef.current = updatedWb;
       setWarband({ ...updatedWb });
 
       if (debounceRef.current) clearTimeout(debounceRef.current);
       debounceRef.current = setTimeout(() => {
-        const docRef = doc(db!, 'warbands', uid);
+        const docRef = doc(db!, 'warbands', playerName);
         setDoc(docRef, updatedWb).catch(console.error);
       }, 400);
     },
-    [uid]
+    [playerName]
   );
 
   const update = useCallback(
