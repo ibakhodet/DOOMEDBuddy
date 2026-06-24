@@ -1,0 +1,10 @@
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; padding: 0; background: #07090a; -webkit-user-select: none; -moz-user-select: none; user-select: none; -webkit-touch-callout: none; }
+input, textarea { -webkit-user-select: text; -moz-user-select: text; user-select: text; }
+::-webkit-scrollbar { width: 0; height: 0; }
+
+@keyframes sheetUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes swipeL { from { opacity: .4; transform: translateX(34px); } to { opacity: 1; transform: none; } }
+@keyframes swipeR { from { opacity: .4; transform: translateX(-34px); } to { opacity: 1; transform: none; } }
