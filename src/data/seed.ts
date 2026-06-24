@@ -186,7 +186,7 @@ export function getSeedWarbands(): Warband[] {
       name: 'ASHEN WRIT',
       sub: 'Inheritor Courts',
       faction: 'inheritor',
-      renown: 20,
+      renown: 26,
       won: 2,
       units: [
         {
@@ -250,9 +250,9 @@ export function getSeedWarbands(): Warband[] {
     {
       player: 'TORD',
       name: 'THE RUSTED ORDER',
-      sub: 'Martyr Retinues \u00b7 The Lost',
+      sub: 'Martyr Retinues \u00b7 Knights of the Motherboard',
       faction: 'martyr',
-      renown: 20,
+      renown: 23,
       won: 2,
       units: [
         {
