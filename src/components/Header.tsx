@@ -1,12 +1,31 @@
+import { useState } from 'react';
 import type { Warband } from '../data/types';
 
 interface HeaderProps {
   wb: Warband;
   playerName: string;
   onLogout?: () => void;
+  onSetRenown?: (value: number) => void;
 }
 
-export default function Header({ wb, playerName, onLogout }: HeaderProps) {
+export default function Header({ wb, playerName, onLogout, onSetRenown }: HeaderProps) {
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState(String(wb.renown));
+
+  const startEdit = () => {
+    if (!onSetRenown) return;
+    setDraft(String(wb.renown));
+    setEditing(true);
+  };
+
+  const commitEdit = () => {
+    const val = parseInt(draft, 10);
+    if (!isNaN(val) && val >= 0 && onSetRenown) {
+      onSetRenown(val);
+    }
+    setEditing(false);
+  };
+
   return (
     <header
       style={{
@@ -112,35 +131,61 @@ export default function Header({ wb, playerName, onLogout }: HeaderProps) {
 
           {/* stats */}
           <div style={{ display: 'flex', gap: 16, marginLeft: 12 }}>
-            {([
-              ['RENOWN', wb.renown],
-              ['UNITS', wb.units.length],
-              ['WON', wb.won],
-            ] as const).map(([label, value]) => (
-              <div key={label} style={{ textAlign: 'center' }}>
-                <div
+            {/* RENOWN - tappable to edit */}
+            <div style={{ textAlign: 'center' }}>
+              <div style={{
+                fontFamily: "'Chakra Petch', sans-serif", fontWeight: 600, fontSize: 10,
+                letterSpacing: '.08em', color: '#3f9e58',
+              }}>RENOWN</div>
+              {editing ? (
+                <input
+                  autoFocus
+                  type="number"
+                  value={draft}
+                  onChange={(e) => setDraft(e.target.value)}
+                  onBlur={commitEdit}
+                  onKeyDown={(e) => { if (e.key === 'Enter') commitEdit(); }}
                   style={{
-                    fontFamily: "'Chakra Petch', sans-serif",
-                    fontWeight: 600,
-                    fontSize: 10,
-                    letterSpacing: '.08em',
-                    color: '#3f9e58',
+                    fontFamily: "'Chakra Petch', sans-serif", fontWeight: 700, fontSize: 14,
+                    color: '#57ff82', background: '#041007', border: '1px solid #2c6e3f',
+                    borderRadius: 3, width: 40, textAlign: 'center', outline: 'none', padding: 0,
+                  }}
+                />
+              ) : (
+                <div
+                  onClick={startEdit}
+                  style={{
+                    fontFamily: "'Chakra Petch', sans-serif", fontWeight: 700, fontSize: 14,
+                    color: '#57ff82', cursor: onSetRenown ? 'pointer' : 'default',
+                    borderBottom: onSetRenown ? '1px dashed #2c6e3f' : 'none',
                   }}
                 >
-                  {label}
+                  {wb.renown}
                 </div>
-                <div
-                  style={{
-                    fontFamily: "'Chakra Petch', sans-serif",
-                    fontWeight: 700,
-                    fontSize: 14,
-                    color: '#57ff82',
-                  }}
-                >
-                  {value}
-                </div>
-              </div>
-            ))}
+              )}
+            </div>
+
+            {/* UNITS */}
+            <div style={{ textAlign: 'center' }}>
+              <div style={{
+                fontFamily: "'Chakra Petch', sans-serif", fontWeight: 600, fontSize: 10,
+                letterSpacing: '.08em', color: '#3f9e58',
+              }}>UNITS</div>
+              <div style={{
+                fontFamily: "'Chakra Petch', sans-serif", fontWeight: 700, fontSize: 14, color: '#57ff82',
+              }}>{wb.units.length}</div>
+            </div>
+
+            {/* WON */}
+            <div style={{ textAlign: 'center' }}>
+              <div style={{
+                fontFamily: "'Chakra Petch', sans-serif", fontWeight: 600, fontSize: 10,
+                letterSpacing: '.08em', color: '#3f9e58',
+              }}>WON</div>
+              <div style={{
+                fontFamily: "'Chakra Petch', sans-serif", fontWeight: 700, fontSize: 14, color: '#57ff82',
+              }}>{wb.won}</div>
+            </div>
           </div>
         </div>
       </div>

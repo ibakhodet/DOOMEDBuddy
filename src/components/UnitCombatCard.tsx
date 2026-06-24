@@ -23,6 +23,7 @@ interface UnitCombatCardProps {
   onSwipeEnd: (x: number, y: number) => void;
   onWeaponDown: (owner: string, widx: number) => void;
   onWeaponUp: () => void;
+  onMoveWeapon: (owner: string, widx: number) => void;
   onUpgradeQL: () => void;
   onAddWeapon: () => void;
   onEditWeapon: (widx: number) => void;
@@ -66,7 +67,7 @@ export default function UnitCombatCard({
   onClose, onPrev, onNext,
   onChip, onSetStatus, onToggleWarband,
   onSwipeStart, onSwipeEnd,
-  onWeaponDown, onWeaponUp,
+  onWeaponDown, onWeaponUp, onMoveWeapon,
   onUpgradeQL,
   onAddWeapon, onEditWeapon,
   onChangePortrait, onDeletePortrait,
@@ -677,16 +678,40 @@ export default function UnitCombatCard({
                           }}
                           style={{
                             fontFamily: FONT,
-                            fontSize: 14,
+                            fontWeight: 600,
+                            fontSize: 11,
                             color: '#6a786e',
                             background: 'transparent',
-                            border: 'none',
+                            border: '1px solid #3a4143',
+                            borderRadius: 3,
                             cursor: 'pointer',
-                            padding: '2px 4px',
+                            padding: '2px 7px',
                             flexShrink: 0,
                           }}
                         >
-                          &#9998;
+                          Edit
+                        </button>
+                        {/* Move button */}
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onMoveWeapon(unit.id, widx);
+                          }}
+                          onPointerDown={(e) => e.stopPropagation()}
+                          style={{
+                            fontFamily: FONT,
+                            fontWeight: 600,
+                            fontSize: 11,
+                            color: '#9b6cff',
+                            background: 'transparent',
+                            border: '1px solid #5a3a8a',
+                            borderRadius: 3,
+                            cursor: 'pointer',
+                            padding: '2px 7px',
+                            flexShrink: 0,
+                          }}
+                        >
+                          Move
                         </button>
                       </div>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 3 }}>

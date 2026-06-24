@@ -341,7 +341,7 @@ function App() {
 
   return (
     <div style={{ height: '100vh', maxWidth: 540, margin: '0 auto', display: 'flex', flexDirection: 'column', background: '#0b0d0e', fontFamily: "'Chakra Petch', sans-serif", position: 'relative', overflow: 'hidden' }}>
-      <Header wb={wb} playerName={playerName || wb.player} onLogout={firebaseConfigured ? logout : undefined} />
+      <Header wb={wb} playerName={playerName || wb.player} onLogout={firebaseConfigured ? logout : undefined} onSetRenown={(val) => updateWb(w => { w.renown = val; })} />
 
       <div style={{ flex: 1, overflowY: 'auto', WebkitOverflowScrolling: 'touch' }}>
         {view === 'roster' && (
@@ -380,6 +380,7 @@ function App() {
           onToggleWarband={() => onToggleWarband(activeUnit.id)}
           onSwipeStart={onSwipeStart} onSwipeEnd={onSwipeEnd}
           onWeaponDown={onWeaponDown} onWeaponUp={onWeaponUp}
+          onMoveWeapon={(owner, widx) => setMoveGear({ owner, widx })}
           onUpgradeQL={() => onUpgradeQL(activeUnit.id)}
           onAddWeapon={() => setAddWeaponFor(activeUnit.id)}
           onEditWeapon={(widx) => setEditWeapon({ unitId: activeUnit.id, widx })}
