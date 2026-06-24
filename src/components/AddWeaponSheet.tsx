@@ -14,6 +14,7 @@ interface AddWeaponSheetProps {
   }) => void;
   weapon?: Weapon;
   onDelete?: () => void;
+  playerName?: string;
 }
 
 function parseNotation(notation: string): { type: 'M' | 'R'; dice: number; damage: number } {
@@ -39,7 +40,7 @@ for (const w of weaponCatalog) {
   }
 }
 
-export default function AddWeaponSheet({ onClose, onSave, weapon, onDelete }: AddWeaponSheetProps) {
+export default function AddWeaponSheet({ onClose, onSave, weapon, onDelete, playerName }: AddWeaponSheetProps) {
   const isEdit = !!weapon;
   const parsed = weapon ? parseNotation(weapon.notation) : null;
 
@@ -55,14 +56,19 @@ export default function AddWeaponSheet({ onClose, onSave, weapon, onDelete }: Ad
   const notation = `${type}${dice}x${damage}`;
   const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
 
-  // Filter suggestions based on name input
+  // Filter suggestions based on name input + player lock
   const suggestions = useMemo(() => {
     if (!name.trim() || isEdit) return [];
     const q = name.toLowerCase();
     return uniqueCatalog
-      .filter(w => w.name.toLowerCase().includes(q))
+      .filter(w => {
+        if (!w.name.toLowerCase().includes(q)) return false;
+        // Respect player lock: hide rewards meant for other players
+        if (w.playerLock && playerName && !w.playerLock.includes(playerName)) return false;
+        return true;
+      })
       .slice(0, 8);
-  }, [name, isEdit]);
+  }, [name, isEdit, playerName]);
 
   const applySuggestion = (tpl: WeaponTemplate) => {
     setName(tpl.name);

@@ -441,6 +441,7 @@ function App() {
         <AddWeaponSheet
           onClose={() => setAddWeaponFor(null)}
           onSave={(weapon) => onAddWeapon(addWeaponFor, weapon)}
+          playerName={playerName || wb.player}
         />
       )}
 
@@ -450,6 +451,7 @@ function App() {
           onClose={() => setEditWeapon(null)}
           onSave={(weapon) => onSaveWeapon(editWeapon.unitId, editWeapon.widx, weapon)}
           onDelete={() => onDeleteWeapon(editWeapon.unitId, editWeapon.widx)}
+          playerName={playerName || wb.player}
         />
       )}
 

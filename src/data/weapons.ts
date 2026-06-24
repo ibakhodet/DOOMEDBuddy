@@ -9,6 +9,8 @@ export interface WeaponTemplate {
   source: string;
   custom?: string;
   rarity: 'standard' | 'superior' | 'epic';
+  /** If set, only these players see this reward in autocomplete */
+  playerLock?: string[];
 }
 
 export const weaponCatalog: WeaponTemplate[] = [
@@ -75,79 +77,97 @@ export const weaponCatalog: WeaponTemplate[] = [
   { name: 'Kinetic Driver', notation: 'M1x1', cost: 1, mods: ['force'], source: 'Exile 1pt', rarity: 'standard' },
 
   // ──── HORROR REWARDS ────
-  // Devourer
-  { name: 'Reaper Blade', notation: 'M1x2', cost: 2, mods: [], source: 'Devourer reward', rarity: 'epic', custom: 'Make a Free Action when you Take Out an Enemy with this Weapon.' },
-  { name: 'Acid Gun', notation: 'R1x3', cost: 3, mods: [], source: 'Devourer reward', rarity: 'epic', custom: 'Ignores Shields and Cloaks.' },
+  // Devourer (Martin)
+  { name: 'Reaper Blade', notation: 'M1x2', cost: 2, mods: [], source: 'Rewarded for killing the Devourer', rarity: 'epic', custom: 'Make a Free Action when you Take Out an Enemy with this Weapon.', playerLock: ['MARTIN'] },
+  { name: 'Acid Gun', notation: 'R1x3', cost: 3, mods: [], source: 'Rewarded for killing the Devourer', rarity: 'epic', custom: 'Ignores Shields and Cloaks.', playerLock: ['MARTIN'] },
+  { name: 'Hunger Gland', notation: '', cost: 1, mods: [], source: 'Rewarded for killing the Devourer', rarity: 'epic', custom: 'Free Action the first time you Wound an Enemy in each battle.', playerLock: ['MARTIN'] },
   // Warped Hunters
-  { name: 'Hunter Rifle', notation: 'R1x4', cost: 3, mods: [], source: 'Warped Hunters reward', rarity: 'epic' },
-  // Abyssal Colossus
-  { name: 'Abyssal Shield', notation: '', cost: 1, mods: [], source: 'Abyssal Colossus reward', rarity: 'epic', custom: 'When Readied, +1 to Saves and counts as Tough.' },
+  { name: 'Hunter Rifle', notation: 'R1x4', cost: 3, mods: [], source: 'Rewarded for killing the Warped Hunters', rarity: 'epic' },
+  // Abyssal Colossus (Martin)
+  { name: 'Abyssal Shield', notation: '', cost: 1, mods: [], source: 'Rewarded for killing the Abyssal Colossus', rarity: 'epic', custom: 'When Readied, +1 to Saves and counts as Tough.', playerLock: ['MARTIN'] },
+  { name: 'Colossus Shard', notation: '', cost: 1, mods: [], source: 'Rewarded for killing the Abyssal Colossus', rarity: 'epic', custom: 'Attempt a Free Recovery when an Enemy Moves to touch you.', playerLock: ['MARTIN'] },
   // Eliminator Drone
-  { name: 'Reaper Blaster', notation: 'R2x1', cost: 3, mods: [], source: 'Eliminator Drone reward', rarity: 'epic', custom: 'Can Shoot twice per Turn.' },
-  { name: 'Dismemberment Claw', notation: 'M1x2', cost: 2, mods: [], source: 'Eliminator Drone reward', rarity: 'epic', custom: 'Targets that roll a 1 on any Save are Taken Out.' },
+  { name: 'Reaper Blaster', notation: 'R2x1', cost: 3, mods: [], source: 'Rewarded for killing the Eliminator Drone', rarity: 'epic', custom: 'Can Shoot twice per Turn.' },
+  { name: 'Dismemberment Claw', notation: 'M1x2', cost: 2, mods: [], source: 'Rewarded for killing the Eliminator Drone', rarity: 'epic', custom: 'Targets that roll a 1 on any Save are Taken Out.' },
   // Crusade Machine
-  { name: 'Impacter', notation: 'M1x6', cost: 3, mods: [], source: 'Crusade Machine reward', rarity: 'epic', custom: 'Cannot be used on the last Action of your Turn or as a Free Action.' },
+  { name: 'Impacter', notation: 'M1x6', cost: 3, mods: [], source: 'Rewarded for killing the Crusade Machine', rarity: 'epic', custom: 'Cannot be used on the last Action of your Turn or as a Free Action.' },
   // Doom Hand
-  { name: 'Catching Pole', notation: 'M1x3', cost: 2, mods: [], source: 'Doom Hand reward', rarity: 'epic', custom: 'Downed Enemies touching this unit Recover at QL6+.' },
-  // Burning Brute
-  { name: 'Thermal Maul', notation: 'M1x5', cost: 3, mods: [], source: 'Burning Brute reward', rarity: 'epic', custom: 'Only once per Turn.' },
+  { name: 'Catching Pole', notation: 'M1x3', cost: 2, mods: [], source: 'Rewarded for killing the Doom Hand', rarity: 'epic', custom: 'Downed Enemies touching this unit Recover at QL6+.' },
+  // Burning Brute (Tord)
+  { name: 'Volcanic Shroud', notation: '', cost: 2, mods: [], source: 'Rewarded for killing the Burning Brute', rarity: 'epic', custom: 'Shooting Attacks only hit you on a 6.', playerLock: ['TORD'] },
+  { name: 'Ember Launcher', notation: '', cost: 3, mods: [], source: 'Rewarded for killing the Burning Brute', rarity: 'epic', custom: 'In place of Shooting, deploy an Unbound Ember at any point you can see.', playerLock: ['TORD'] },
+  { name: 'Thermal Maul', notation: 'M1x5', cost: 3, mods: [], source: 'Rewarded for killing the Burning Brute', rarity: 'epic', custom: 'Only once per Turn.', playerLock: ['TORD'] },
   // Exterminators
-  { name: 'Blitz Gun', notation: 'R1x1', cost: 2, mods: [], source: 'Exterminators reward', rarity: 'epic', custom: 'Ignore the once-per-Turn Shooting limit.' },
-  { name: 'Chaos Gun', notation: 'R1x3', cost: 2, mods: [], source: 'Exterminators reward', rarity: 'epic', custom: 'Treat Shock Rolls of 7 as Panic if it benefits you.' },
-  { name: 'Portable Chaingun', notation: 'Rd6x1', cost: 2, mods: [], source: 'Exterminators reward', rarity: 'epic', custom: 'Roll d6 for number of shots, each doing 1 Damage.' },
+  { name: 'Blitz Gun', notation: 'R1x1', cost: 2, mods: [], source: 'Rewarded for killing the Exterminators', rarity: 'epic', custom: 'Ignore the once-per-Turn Shooting limit.' },
+  { name: 'Chaos Gun', notation: 'R1x3', cost: 2, mods: [], source: 'Rewarded for killing the Exterminators', rarity: 'epic', custom: 'Treat Shock Rolls of 7 as Panic if it benefits you.' },
+  { name: 'Portable Chaingun', notation: 'Rd6x1', cost: 2, mods: [], source: 'Rewarded for killing the Exterminators', rarity: 'epic', custom: 'Roll d6 for number of shots, each doing 1 Damage.' },
   // Pit Serpent
-  { name: 'Fang Blade', notation: 'M2x2', cost: 3, mods: [], source: 'Pit Serpent reward', rarity: 'epic', custom: 'The wielder gains Nimble.' },
+  { name: 'Fang Blade', notation: 'M2x2', cost: 3, mods: [], source: 'Rewarded for killing the Pit Serpent', rarity: 'epic', custom: 'The wielder gains Nimble.' },
   // Traitor's Tomb
-  { name: 'Purgatorial Flamethrower', notation: 'R2x1', cost: 2, mods: [], source: "Traitor's Tomb reward", rarity: 'epic', custom: 'If a target is Wounded, all units that can see them (other than the shooter) suffer 1 Damage.' },
+  { name: 'Purgatorial Flamethrower', notation: 'R2x1', cost: 2, mods: [], source: "Rewarded for killing the Traitor's Tomb", rarity: 'epic', custom: 'If a target is Wounded, all units that can see them (other than the shooter) suffer 1 Damage.' },
   // Winter Harvester
-  { name: 'Cold Scythe', notation: 'M2x3', cost: 4, mods: [], source: 'Winter Harvester reward', rarity: 'epic' },
+  { name: 'Cold Scythe', notation: 'M2x3', cost: 4, mods: [], source: 'Rewarded for killing the Winter Harvester', rarity: 'epic' },
   // Grafted Aberration
-  { name: 'Rage Blaster', notation: 'R2x1', cost: 2, mods: [], source: 'Grafted Aberration reward', rarity: 'epic', custom: 'Targets that are Downed Attack the nearest target, friend or foe, instead of rolling Shock.' },
-  { name: 'Viscera Blades', notation: 'M2x2', cost: 2, mods: [], source: 'Grafted Aberration reward', rarity: 'epic', custom: 'This unit cannot carry any other Weapons.' },
+  { name: 'Rage Blaster', notation: 'R2x1', cost: 2, mods: [], source: 'Rewarded for killing the Grafted Aberration', rarity: 'epic', custom: 'Targets that are Downed Attack the nearest target, friend or foe, instead of rolling Shock.' },
+  { name: 'Viscera Blades', notation: 'M2x2', cost: 2, mods: [], source: 'Rewarded for killing the Grafted Aberration', rarity: 'epic', custom: 'This unit cannot carry any other Weapons.' },
   // Battle Strider
-  { name: 'Link Gun', notation: 'R1x3', cost: 3, mods: [], source: 'Battle Strider reward', rarity: 'epic', custom: 'Use 3 Actions to fire this as R3x3.' },
+  { name: 'Link Gun', notation: 'R1x3', cost: 3, mods: [], source: 'Rewarded for killing the Battle Strider', rarity: 'epic', custom: 'Use 3 Actions to fire this as R3x3.' },
   // Quake Engine
-  { name: 'Quake Hammer', notation: 'M1x3', cost: 2, mods: [], source: 'Quake Engine reward', rarity: 'epic', custom: 'When this unit Takes Out a target, the nearest other unit takes 1 Damage.' },
+  { name: 'Quake Hammer', notation: 'M1x3', cost: 2, mods: [], source: 'Rewarded for killing the Quake Engine', rarity: 'epic', custom: 'When this unit Takes Out a target, the nearest other unit takes 1 Damage.' },
   // Oozing Bull
-  { name: "Charger's Lance", notation: 'M1x2', cost: 2, mods: [], source: 'Oozing Bull reward', rarity: 'epic', custom: 'x2 Damage if the unit Moved immediately before this Attack.' },
+  { name: "Charger's Lance", notation: 'M1x2', cost: 2, mods: [], source: 'Rewarded for killing the Oozing Bull', rarity: 'epic', custom: 'x2 Damage if the unit Moved immediately before this Attack.' },
   // Chameleoid
-  { name: 'Bio-Spike Launcher', notation: 'R1x3', cost: 3, mods: [], source: 'Chameleoid reward', rarity: 'epic', custom: 'If the unit hits a target, it may make a Free Move.' },
-  { name: 'Tearing Knife', notation: 'M1x3', cost: 3, mods: ['rend'], source: 'Chameleoid reward', rarity: 'epic' },
+  { name: 'Bio-Spike Launcher', notation: 'R1x3', cost: 3, mods: [], source: 'Rewarded for killing the Chameleoid', rarity: 'epic', custom: 'If the unit hits a target, it may make a Free Move.' },
+  { name: 'Tearing Knife', notation: 'M1x3', cost: 3, mods: ['rend'], source: 'Rewarded for killing the Chameleoid', rarity: 'epic' },
   // Steel Tyrant
-  { name: 'Lightning Gun', notation: 'R1x3', cost: 3, mods: [], source: 'Steel Tyrant reward', rarity: 'epic', custom: 'If the target is Wounded, Shoot again at the nearest visible Enemy; cannot strike the same target twice.' },
-  { name: 'Flash Gun', notation: 'R3x1', cost: 2, mods: [], source: 'Steel Tyrant reward', rarity: 'epic', custom: 'If a Standing target rolls a 1 for any Save, the unit is Downed without rolling Shock.' },
+  { name: 'Lightning Gun', notation: 'R1x3', cost: 3, mods: [], source: 'Rewarded for killing the Steel Tyrant', rarity: 'epic', custom: 'If the target is Wounded, Shoot again at the nearest visible Enemy; cannot strike the same target twice.' },
+  { name: 'Flash Gun', notation: 'R3x1', cost: 2, mods: [], source: 'Rewarded for killing the Steel Tyrant', rarity: 'epic', custom: 'If a Standing target rolls a 1 for any Save, the unit is Downed without rolling Shock.' },
   // Rot Herald
-  { name: 'Impaler Horn', notation: 'M3x1', cost: 3, mods: [], source: 'Rot Herald reward', rarity: 'epic', custom: 'x2 Damage if all dice hit.' },
-  { name: 'Spore Gun', notation: 'R1x3', cost: 2, mods: [], source: 'Rot Herald reward', rarity: 'epic', custom: 'Designate one enemy as the target before the battle; x2 Attack dice against that unit.' },
+  { name: 'Impaler Horn', notation: 'M3x1', cost: 3, mods: [], source: 'Rewarded for killing the Rot Herald', rarity: 'epic', custom: 'x2 Damage if all dice hit.' },
+  { name: 'Spore Gun', notation: 'R1x3', cost: 2, mods: [], source: 'Rewarded for killing the Rot Herald', rarity: 'epic', custom: 'Designate one enemy as the target before the battle; x2 Attack dice against that unit.' },
   // Grey Circle
-  { name: 'Fanatic Flail', notation: 'M2x1', cost: 2, mods: [], source: 'Grey Circle reward', rarity: 'epic', custom: 'If any of your Allies have been Taken Out, this Round the unit has Fierce and Nimble.' },
-  { name: 'Cinder Bone', notation: 'M1x1', cost: 2, mods: [], source: 'Grey Circle reward', rarity: 'epic', custom: 'No Save permitted. One use per battle.' },
+  { name: 'Fanatic Flail', notation: 'M2x1', cost: 2, mods: [], source: 'Rewarded for killing the Grey Circle', rarity: 'epic', custom: 'If any of your Allies have been Taken Out, this Round the unit has Fierce and Nimble.' },
+  { name: 'Cinder Bone', notation: 'M1x1', cost: 2, mods: [], source: 'Rewarded for killing the Grey Circle', rarity: 'epic', custom: 'No Save permitted. One use per battle.' },
   // Living Blizzard
-  { name: 'Icepiercer', notation: 'R1x2', cost: 2, mods: [], source: 'Living Blizzard reward', rarity: 'epic', custom: 'If this unit Wounds a target they become Exhausted.' },
+  { name: 'Icepiercer', notation: 'R1x2', cost: 2, mods: [], source: 'Rewarded for killing the Living Blizzard', rarity: 'epic', custom: 'If this unit Wounds a target they become Exhausted.' },
   // Sin Echo
-  { name: 'Echo Blade', notation: 'M3x1', cost: 2, mods: [], source: 'Sin Echo reward', rarity: 'epic', custom: "When Attacking, use the target's QL instead of your own." },
+  { name: 'Echo Blade', notation: 'M3x1', cost: 2, mods: [], source: 'Rewarded for killing the Sin Echo', rarity: 'epic', custom: "When Attacking, use the target's QL instead of your own." },
   // Red Witch
-  { name: 'Red Beam', notation: 'R1x3', cost: 3, mods: [], source: 'Red Witch reward', rarity: 'epic', custom: 'When this unit Wounds a target with this weapon, make a Free Attack.' },
+  { name: 'Red Beam', notation: 'R1x3', cost: 3, mods: [], source: 'Rewarded for killing the Red Witch', rarity: 'epic', custom: 'When this unit Wounds a target with this weapon, make a Free Attack.' },
   // Shadow Cutter
-  { name: 'Dark Knife', notation: 'M2x1', cost: 2, mods: [], source: 'Shadow Cutter reward', rarity: 'epic', custom: 'x2 Damage if no Enemies other than the target can see this unit.' },
+  { name: 'Dark Knife', notation: 'M2x1', cost: 2, mods: [], source: 'Rewarded for killing the Shadow Cutter', rarity: 'epic', custom: 'x2 Damage if no Enemies other than the target can see this unit.' },
   // Rook Wyvern
-  { name: 'Nerve Gun', notation: 'R3x1', cost: 3, mods: [], source: 'Rook Wyvern reward', rarity: 'epic', custom: 'May make a Free Attack as R2x1 against a second viable target.' },
+  { name: 'Nerve Gun', notation: 'R3x1', cost: 3, mods: [], source: 'Rewarded for killing the Rook Wyvern', rarity: 'epic', custom: 'May make a Free Attack as R2x1 against a second viable target.' },
   // Flesh Titan
-  { name: 'Grapple Tendon', notation: 'R1x1', cost: 1, mods: [], source: 'Flesh Titan reward', rarity: 'epic', custom: 'If this unit hits the target it Moves into touch with them.' },
+  { name: 'Grapple Tendon', notation: 'R1x1', cost: 1, mods: [], source: 'Rewarded for killing the Flesh Titan', rarity: 'epic', custom: 'If this unit hits the target it Moves into touch with them.' },
   // Rage Angel
-  { name: 'Roaring Blade', notation: 'M3x2', cost: 3, mods: [], source: 'Rage Angel reward', rarity: 'epic' },
+  { name: 'Roaring Blade', notation: 'M3x2', cost: 3, mods: [], source: 'Rewarded for killing the Rage Angel', rarity: 'epic' },
   // Catafractal
-  { name: 'Infinity Blade', notation: 'M1x5', cost: 3, mods: [], source: 'Catafractal reward', rarity: 'epic', custom: 'If the Attack fails to cause a Wound, the Attacker takes 5 Damage.' },
-  { name: 'Psych-Ray', notation: 'R1x4', cost: 3, mods: [], source: 'Catafractal reward', rarity: 'epic', custom: 'Wounded targets Roll on the Shock Table using D6+2 rather than 2D6.' },
+  { name: 'Infinity Blade', notation: 'M1x5', cost: 3, mods: [], source: 'Rewarded for killing the Catafractal', rarity: 'epic', custom: 'If the Attack fails to cause a Wound, the Attacker takes 5 Damage.' },
+  { name: 'Psych-Ray', notation: 'R1x4', cost: 3, mods: [], source: 'Rewarded for killing the Catafractal', rarity: 'epic', custom: 'Wounded targets Roll on the Shock Table using D6+2 rather than 2D6.' },
   // Dust Leviathan
-  { name: 'Erosion Cannon', notation: 'R6x1', cost: 3, mods: [], source: 'Dust Leviathan reward', rarity: 'epic', custom: 'This unit can only target units in its board quarter.' },
+  { name: 'Erosion Cannon', notation: 'R6x1', cost: 3, mods: [], source: 'Rewarded for killing the Dust Leviathan', rarity: 'epic', custom: 'This unit can only target units in its board quarter.' },
   // Mantevora
-  { name: 'Beast Claw', notation: 'M2x1', cost: 1, mods: [], source: 'Mantevora reward', rarity: 'epic', custom: 'When this unit Takes Out an Enemy, add 1 to the number of dice it rolls for the rest of the battle.' },
-  { name: 'Bile Launcher', notation: 'R2x1', cost: 2, mods: [], source: 'Mantevora reward', rarity: 'epic', custom: 'If the target is Wounded that unit loses all Skills for the rest of the battle.' },
+  { name: 'Beast Claw', notation: 'M2x1', cost: 1, mods: [], source: 'Rewarded for killing the Mantevora', rarity: 'epic', custom: 'When this unit Takes Out an Enemy, add 1 to the number of dice it rolls for the rest of the battle.' },
+  { name: 'Bile Launcher', notation: 'R2x1', cost: 2, mods: [], source: 'Rewarded for killing the Mantevora', rarity: 'epic', custom: 'If the target is Wounded that unit loses all Skills for the rest of the battle.' },
   // Technobasilisk
-  { name: 'Shatter Rifle', notation: 'R1x2', cost: 2, mods: [], source: 'Technobasilisk reward', rarity: 'epic', custom: 'x2 Damage vs Exhausted targets.' },
+  { name: 'Shatter Rifle', notation: 'R1x2', cost: 2, mods: [], source: 'Rewarded for killing the Technobasilisk', rarity: 'epic', custom: 'x2 Damage vs Exhausted targets.' },
   // Broken Behemoth
-  { name: 'Wrecking Hammer', notation: 'M1x4', cost: 3, mods: [], source: 'Broken Behemoth reward', rarity: 'epic' },
+  { name: 'Wrecking Hammer', notation: 'M1x4', cost: 3, mods: [], source: 'Rewarded for killing the Broken Behemoth', rarity: 'epic' },
+
+  // ──── PLAYER-LOCKED SCENE REWARDS ────
+
+  // Duel scene (Martin only)
+  { name: 'Stolen Designs', notation: '', cost: 0, mods: [], source: 'Rewarded for winning the Duel', rarity: 'epic', custom: 'This unit can buy any equipment the Enemy Leader carried in this battle, at normal cost.', playerLock: ['MARTIN'] },
+  { name: 'Mocking Trophy', notation: '', cost: 1, mods: [], source: 'Rewarded for winning the Duel', rarity: 'epic', custom: 'The Enemy Leader Taken Out in this battle acts as QL4+ when targeting this unit specifically.', playerLock: ['MARTIN'] },
+  { name: 'Mercy Shield', notation: '', cost: 1, mods: [], source: 'Rewarded for winning the Duel', rarity: 'epic', custom: '+1 to all Saves, but this unit cannot Attack the Enemy Leader.', playerLock: ['MARTIN'] },
+
+  // Breakthrough scene (Martin + Sigve)
+  { name: 'Flank', notation: '', cost: 2, mods: [], source: 'Rewarded for winning the Breakthrough', rarity: 'epic', custom: 'Any of your units with Nimble can deploy from any board edge. Leader only.', playerLock: ['MARTIN', 'SIGVE'] },
+
+  // Exorcism scene (Tord only)
+  { name: 'Soul Jar', notation: '', cost: 1, mods: [], source: 'Rewarded for winning the Exorcism', rarity: 'epic', custom: 'When this unit is Taken Out, release an Unbound Vengeful Spirit at its location; it treats every unit as an Enemy.', playerLock: ['TORD'] },
+  { name: 'Geistgun', notation: 'R2x1', cost: 2, mods: [], source: 'Rewarded for winning the Exorcism', rarity: 'epic', custom: 'Ignore a single piece of terrain when firing.', playerLock: ['TORD'] },
 ];
 
 // Build a search-friendly label for each weapon
