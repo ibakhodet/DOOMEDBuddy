@@ -7,17 +7,19 @@ import {
   signOut,
   User,
 } from 'firebase/auth';
-import { auth, PLAYERS } from '../firebase';
+import { auth, PLAYERS, isFirebaseConfigured } from '../firebase';
 
 const EMAIL_KEY = 'doomed_emailForSignIn';
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null);
   const [playerName, setPlayerName] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(isFirebaseConfigured);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!auth || !isFirebaseConfigured) return;
+
     // Check if returning from email link
     if (isSignInWithEmailLink(auth, window.location.href)) {
       let email = window.localStorage.getItem(EMAIL_KEY);
@@ -27,7 +29,6 @@ export function useAuth() {
       signInWithEmailLink(auth, email, window.location.href)
         .then(() => {
           window.localStorage.removeItem(EMAIL_KEY);
-          // Clean URL
           window.history.replaceState(null, '', window.location.pathname);
         })
         .catch((err) => {
@@ -44,8 +45,7 @@ export function useAuth() {
           setPlayerName(name);
           setError(null);
         } else {
-          // Not on the roster
-          signOut(auth);
+          signOut(auth!);
           setUser(null);
           setPlayerName(null);
           setError('Not on the roster. This app is for Martin, Sigve, and Tord only.');
@@ -61,6 +61,7 @@ export function useAuth() {
   }, []);
 
   const sendLink = async (email: string) => {
+    if (!auth) return false;
     const actionCodeSettings = {
       url: window.location.origin + window.location.pathname,
       handleCodeInApp: true,
@@ -75,7 +76,7 @@ export function useAuth() {
     }
   };
 
-  const logout = () => signOut(auth);
+  const logout = () => { if (auth) signOut(auth); };
 
   return { user, playerName, loading, error, sendLink, logout };
 }
