@@ -249,8 +249,8 @@ export function getSeedWarbands(): Warband[] {
     // ── Warband 3 – Tord ────────────────────────────────────
     {
       player: 'TORD',
-      name: 'THE RUSTED ORDER',
-      sub: 'Martyr Retinues \u00b7 Knights of the Motherboard',
+      name: 'KNIGHTS OF THE MOTHERBOARD',
+      sub: 'Martyr Retinues',
       faction: 'martyr',
       renown: 23,
       won: 2,

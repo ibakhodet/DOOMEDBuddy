@@ -3,7 +3,7 @@ import { ALL_PLAYER_NAMES } from '../firebase';
 const WARBAND_INFO: Record<string, { name: string; sub: string }> = {
   MARTIN: { name: 'THE CURSED', sub: 'Inheritor Courts' },
   SIGVE: { name: 'ASHEN WRIT', sub: 'Inheritor Courts' },
-  TORD: { name: 'THE RUSTED ORDER', sub: 'Knights of the Motherboard' },
+  TORD: { name: 'KNIGHTS OF THE MOTHERBOARD', sub: 'Martyr Retinues' },
 };
 
 interface Props {
