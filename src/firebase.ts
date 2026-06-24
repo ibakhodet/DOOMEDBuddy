@@ -18,7 +18,7 @@ export const db = getFirestore(app);
 // Player email allow-list: email -> player name
 export const PLAYERS: Record<string, string> = {
   'marteri9@gmail.com': 'MARTIN',
-  // Sigve and Tord's emails will be added here
-  'sigve@placeholder.com': 'SIGVE',
+  'sigvelangfeldt@outlook.com': 'SIGVE',
+  // Tord's email will be added here
   'tord@placeholder.com': 'TORD',
 };
